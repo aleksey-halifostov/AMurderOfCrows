@@ -1,17 +1,21 @@
+using AMurderOfCrows.RoadBuilding;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace AMarderOfCrows.RoadBuilding
 {
-    public class PointSpawner : MonoBehaviour
+    [RequireComponent(typeof(PointMap))]
+    public class PointBuilder : MonoBehaviour
     {
         private GameActions _input;
         private PointMover _currentPoint;
+        private PointMap _map;
 
         [SerializeField] private GameObject _pointPrefab;
 
         private void Awake()
         {
+            _map = GetComponent<PointMap>();
             _input = new GameActions();
         }
 
@@ -39,6 +43,7 @@ namespace AMarderOfCrows.RoadBuilding
             if (collider == null || !collider.TryGetComponent<PointMover>(out _currentPoint))
             {
                 _currentPoint = Instantiate(_pointPrefab, new Vector2(clickPosition.x, clickPosition.y), Quaternion.identity).GetComponent<PointMover>();
+                _map.AddPoint(_currentPoint.GetComponent<RoadPoint>());
             }
 
             _currentPoint.enabled = true;
