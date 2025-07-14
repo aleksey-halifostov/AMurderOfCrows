@@ -1,45 +1,37 @@
 using UnityEngine;
 using UnityEngine.Splines;
-using Unity.Mathematics;
-using AMarderOfCrows.RoadBuilding;
 
-namespace AMurderOfCrows.RoadBuilding
+namespace MurderOfCrows.RoadBuilding
 {
-
-    public class Road : MonoBehaviour
+    public class Road
     {
-        [SerializeField] private SplineContainer _spline;
+        private Spline _spline;
 
-        private void OnEnable()
+        public Road(Spline spline)
         {
-            PointMover.OnPointMoved += UpdateKnotPosition;
+            if (spline == null)
+                throw new System.ArgumentNullException(nameof(spline));
+
+            _spline = spline;
         }
 
-        private void OnDisable()
+        public void UpdateKnotPosition(int index, Vector3 position)
         {
-            PointMover.OnPointMoved -= UpdateKnotPosition;
+            _spline[index] = new BezierKnot(position);
         }
 
-        private void UpdateKnotPosition(int index, Vector2 position)
+        public void AddKnot(Vector3 position)
         {
-            if (index <= 0)
-                throw new System.ArgumentOutOfRangeException(nameof(index));
-
-            BezierKnot knot = new BezierKnot(new float3(position.x, position.y, 0));
-            _spline.Spline.SetKnot(index, knot);
+            _spline.Add(position);
         }
 
-        public void AddPoint(Vector2 position)
+        public void RemoveKnot(int index)
         {
-            _spline.Spline.Add(new float3(position.x, position.y, 0));
+            _spline.RemoveAt(index);
         }
 
-        public void RemovePoint(int index)
-        {
-            if (index <= 0)
-                throw new System.ArgumentOutOfRangeException(nameof(index));
+        public Spline GetSpline() {  return _spline; }
 
-            _spline.Spline.RemoveAt(index);
-        }
+        public int GetRoadLength() { return _spline.Count; }
     }
 }

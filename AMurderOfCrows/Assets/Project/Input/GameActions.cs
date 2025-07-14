@@ -108,6 +108,15 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5af508e-960f-43a5-a2eb-d753d3711cc1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -130,6 +139,17 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Mouse&Keyboard"",
                     ""action"": ""DeletePoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9ef959a-fc27-4a8f-8dab-bee0ef48bba1"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Mouse&Keyboard"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -159,6 +179,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_PlacePoint = m_Player.FindAction("PlacePoint", throwIfNotFound: true);
         m_Player_DeletePoint = m_Player.FindAction("DeletePoint", throwIfNotFound: true);
+        m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
     }
 
     ~@GameActions()
@@ -241,6 +262,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_PlacePoint;
     private readonly InputAction m_Player_DeletePoint;
+    private readonly InputAction m_Player_Shoot;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -260,6 +282,10 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/DeletePoint".
         /// </summary>
         public InputAction @DeletePoint => m_Wrapper.m_Player_DeletePoint;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Shoot".
+        /// </summary>
+        public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -292,6 +318,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @DeletePoint.started += instance.OnDeletePoint;
             @DeletePoint.performed += instance.OnDeletePoint;
             @DeletePoint.canceled += instance.OnDeletePoint;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
         }
 
         /// <summary>
@@ -309,6 +338,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @DeletePoint.started -= instance.OnDeletePoint;
             @DeletePoint.performed -= instance.OnDeletePoint;
             @DeletePoint.canceled -= instance.OnDeletePoint;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
         }
 
         /// <summary>
@@ -376,5 +408,12 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDeletePoint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Shoot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShoot(InputAction.CallbackContext context);
     }
 }

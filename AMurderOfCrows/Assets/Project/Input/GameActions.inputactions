@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "f5af508e-960f-43a5-a2eb-d753d3711cc1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -44,6 +53,17 @@
                     "processors": "",
                     "groups": ";Mouse&Keyboard",
                     "action": "DeletePoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9ef959a-fc27-4a8f-8dab-bee0ef48bba1",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mouse&Keyboard",
+                    "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
