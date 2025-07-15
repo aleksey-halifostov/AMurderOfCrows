@@ -1,5 +1,4 @@
 using System;
-using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -11,6 +10,8 @@ namespace MurderOfCrows.Crow
         private Vector3 _previousPosition = Vector3.zero;
         private Spline _spline;
         private float _ratio;
+
+        [SerializeField] private ParticleSystem _burstEffect;
 
         public static event Action<Spline> OnCrowArrived;
 
@@ -25,7 +26,9 @@ namespace MurderOfCrows.Crow
 
         private void Burst()
         {
+            Destroy(gameObject);
             OnCrowArrived?.Invoke(_spline);
+            Instantiate(_burstEffect, transform.position, Quaternion.identity);
         }
 
         private void Move()

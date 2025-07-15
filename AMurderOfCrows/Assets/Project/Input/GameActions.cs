@@ -117,6 +117,15 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancelBuilding"",
+                    ""type"": ""Button"",
+                    ""id"": ""058a9670-a5c2-465e-a57a-45e3ee431433"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1e4b844-492a-4dcb-bcb0-aff66ff4990f"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Mouse&Keyboard"",
+                    ""action"": ""CancelBuilding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -180,6 +200,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_Player_PlacePoint = m_Player.FindAction("PlacePoint", throwIfNotFound: true);
         m_Player_DeletePoint = m_Player.FindAction("DeletePoint", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_CancelBuilding = m_Player.FindAction("CancelBuilding", throwIfNotFound: true);
     }
 
     ~@GameActions()
@@ -263,6 +284,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PlacePoint;
     private readonly InputAction m_Player_DeletePoint;
     private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_CancelBuilding;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -286,6 +308,10 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Shoot".
         /// </summary>
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/CancelBuilding".
+        /// </summary>
+        public InputAction @CancelBuilding => m_Wrapper.m_Player_CancelBuilding;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -321,6 +347,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @CancelBuilding.started += instance.OnCancelBuilding;
+            @CancelBuilding.performed += instance.OnCancelBuilding;
+            @CancelBuilding.canceled += instance.OnCancelBuilding;
         }
 
         /// <summary>
@@ -341,6 +370,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @CancelBuilding.started -= instance.OnCancelBuilding;
+            @CancelBuilding.performed -= instance.OnCancelBuilding;
+            @CancelBuilding.canceled -= instance.OnCancelBuilding;
         }
 
         /// <summary>
@@ -415,5 +447,12 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnShoot(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CancelBuilding" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCancelBuilding(InputAction.CallbackContext context);
     }
 }

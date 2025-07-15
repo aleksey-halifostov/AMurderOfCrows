@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace MurderOfCrows.RoadBuilding
@@ -6,6 +7,14 @@ namespace MurderOfCrows.RoadBuilding
     public class RoadMarksContainer
     {
         private List<Mark> _marks;
+
+        private void UpdateIndexes(int index)
+        {
+            for (int i = index; i < _marks.Count; i++)
+            {
+                _marks[i].Index = i;
+            }
+        }
 
         public RoadMarksContainer()
         {
@@ -23,27 +32,17 @@ namespace MurderOfCrows.RoadBuilding
             UpdateIndexes(index);
         }
 
-        public void SetupMarksAndClear()
+        public void SetupMarks()
         {
             foreach (Mark mark in _marks)
             {
                 mark.DisableCollider();
             }
-
-            ClearMarks();
         }
 
         public void ClearMarks()
         {
-            _marks.Clear();
-        }
-
-        private void UpdateIndexes(int index)
-        {
-            for (int i = index; i < _marks.Count; i++)
-            {
-                _marks[i].Index = i;
-            }
+            foreach(Mark mark in _marks) { GameObject.Destroy(mark.gameObject); }
         }
     }
 }
