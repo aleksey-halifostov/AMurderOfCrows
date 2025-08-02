@@ -7,7 +7,7 @@ using MurderOfCrows.Crow;
 
 namespace MurderOfCrows.RoadBuilding
 {
-    public class RoadsMap : MonoBehaviour
+    public class RoadsMap : MonoBehaviour, IRoadSource, IRoadContainer
     {
         private Road _currentRoad;
         private RoadMarksContainer _currentContainer;
@@ -33,13 +33,13 @@ namespace MurderOfCrows.RoadBuilding
             _input.Player.CancelBuilding.performed += context => DestroyCurrentRoad();
 
             MarkMover.OnMarkChanged += UpdateMarkPosition;
-            CrowMover.OnCrowArrived += DestroyRoad;
+            CrowController.OnCrowArrived += DestroyRoad;
         }
 
         private void OnDisable()
         {
             MarkMover.OnMarkChanged -= UpdateMarkPosition;
-            CrowMover.OnCrowArrived -= DestroyRoad;
+            CrowController.OnCrowArrived -= DestroyRoad;
 
             _input.Player.CancelBuilding.performed -= context => DestroyCurrentRoad();
 
@@ -121,7 +121,7 @@ namespace MurderOfCrows.RoadBuilding
             _currentContainer.RemoveMark(index);
         }
 
-        public Spline FinishRoad()
+        public Spline GetRoad()
         {
             if (!IsHaveRoad)
                 throw new InvalidOperationException("RoadsMap: The action can not be performed, because Current Road is null");

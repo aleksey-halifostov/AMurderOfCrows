@@ -8,8 +8,11 @@ namespace MurderOfCrows.Player
     {
         private GameActions _input;
 
+        private IRoadSource Source => _roadsMap;
+
         [SerializeField] private GameObject _crowPrefab;
-        [SerializeField] private RoadsMap _map;
+        [SerializeField] private RoadsMap _roadsMap;
+
 
         private void Awake()
         {
@@ -30,11 +33,11 @@ namespace MurderOfCrows.Player
 
         private void Shoot()
         {
-            if (!_map.IsHaveRoad)
+            if (!Source.IsHaveRoad)
                 return;
 
-            CrowMover crow = Instantiate(_crowPrefab).GetComponent<CrowMover>();
-            crow.Init(_map.FinishRoad());
+            CrowController crow = Instantiate(_crowPrefab).GetComponent<CrowController>();
+            crow.Init(Source.GetRoad());
         }
     }
 }

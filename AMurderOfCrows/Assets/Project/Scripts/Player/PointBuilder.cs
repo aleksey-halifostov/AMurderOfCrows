@@ -9,8 +9,11 @@ namespace MurderOfCrows.Player
         private GameActions _input;
         private MarkMover _currentPoint;
 
-        [SerializeField] private RoadsMap _map;
+        private IRoadContainer Map => _roadMap;
+
+        [SerializeField] private RoadsMap _roadMap;
         [SerializeField] private GameObject _pointPrefab;
+
 
         private void Awake()
         {
@@ -41,7 +44,7 @@ namespace MurderOfCrows.Player
             if (collider == null || !collider.TryGetComponent<MarkMover>(out _currentPoint))
             {
                 _currentPoint = Instantiate(_pointPrefab, new Vector2(clickPosition.x, clickPosition.y), Quaternion.identity).GetComponent<MarkMover>();
-                _map.AddMark(_currentPoint.GetComponent<Mark>());
+                Map.AddMark(_currentPoint.GetComponent<Mark>());
             }
 
             _currentPoint.enabled = true;
@@ -60,7 +63,7 @@ namespace MurderOfCrows.Player
             if (hit.collider == null || !hit.collider.TryGetComponent<Mark>(out Mark mark))
                 return;
 
-            _map.RemoveMark(mark.Index);
+            Map.RemoveMark(mark.Index);
             Destroy(hit.collider.gameObject);
         }
     }
